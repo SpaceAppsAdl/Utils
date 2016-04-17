@@ -6,6 +6,10 @@ function sendEmails() {
   var startRow = 2;  // First row of data to process
   var numRows = 1;   // Number of rows to process
 
+  var me = Session.getActiveUser().getEmail();
+  var aliases = GmailApp.getAliases();
+  Logger.log(aliases);
+ 
   var files = DriveApp.getFilesByName("Onboard EMail Message Body 1");
   var body = "";
   var file_id = "";
@@ -28,14 +32,18 @@ function sendEmails() {
   if (body != "") {
     for (i in data) {
       var row = data[i];
-      var emailAddress = row[0];
-      var emailName = row[1];
+      var emailName = row[0];
+      var emailAddress = row[1];
       var message = body;
       // Search / replace on ${name}
       message = message.replace("${name}", emailName);
       
+      // noReply:true shows wrong from domain ...      
+      // htmlBody:message doesnt work because getBody() has no getAsHtml() method
       Logger.log("email=" + emailAddress + " name=" + emailName + " msg=" + message);
-      // MailApp.sendEmail(emailAddress, subject, message);
+      GmailApp.sendEmail(emailAddress, subject, message,
+                        {name:"Space Apps Adelaide 2016 Team", 
+                         from:"adlspaceapp2016@phaze.space"});
     }
   }
 }
