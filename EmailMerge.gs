@@ -2,10 +2,23 @@
 // Column2 == Email
 
 function sendEmails() {
-  var sheet = SpreadsheetApp.getActiveSheet();
-  var startRow = 2;  // First row of data to process
-  var numRows = 1;   // Number of rows to process
+  
+  var enabled = false;
+  
+  // Uncomment this to allow the script to actually send email.
+  // Leave it commented normally to avoid accidental use
+  // enabled = true;
 
+  // Pick / add subjects as required
+  // Only uncomment one at a time
+  var subject = "Welcome to SpaceApps Challenge 2016 Adelaide";
+  // var subject = "SpaceApps Challenge 2016 Adelaide - A uniquely South Australian challenge";
+
+  // Edit these to match the copy/paste from the SpaceAppChallenge manage location page
+  var startRow = 2;  // First row of data to process
+  var numRows = 24;   // Number of rows to process
+  
+  var sheet = SpreadsheetApp.getActiveSheet();
   var me = Session.getActiveUser().getEmail();
   var aliases = GmailApp.getAliases();
   Logger.log(aliases);
@@ -28,7 +41,6 @@ function sendEmails() {
   var dataRange = sheet.getRange(startRow, 1, numRows, 2) // r, c, NR, NC
   // Fetch values for each row in the Range.
   var data = dataRange.getValues();
-  var subject = "Welcome to SpaceApps Challenge 2016 Adelaide";
   if (body != "") {
     for (i in data) {
       var row = data[i];
@@ -41,9 +53,11 @@ function sendEmails() {
       // noReply:true shows wrong from domain ...      
       // htmlBody:message doesnt work because getBody() has no getAsHtml() method
       Logger.log("email=" + emailAddress + " name=" + emailName + " msg=" + message);
-      GmailApp.sendEmail(emailAddress, subject, message,
+      if (enabled) {
+        GmailApp.sendEmail(emailAddress, subject, message,
                         {name:"Space Apps Adelaide 2016 Team", 
                          from:"adlspaceapp2016@phaze.space"});
+      }
     }
   }
 }
