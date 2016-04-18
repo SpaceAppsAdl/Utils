@@ -1,0 +1,30 @@
+				
+1	Go to the Space App official node page			https://2016.spaceappschallenge.org/locations/adelaide-australia
+2	Go to manage location			https://2016.spaceappschallenge.org/hosts/manage-location
+3	Export to CSV			
+4	Open in Text Editor			
+5	Create a new sheet to the immediate right of this Instructions sheet. Name it to the date			
+6	Copy / Paste into the new sheet			
+7	Select the pasted data, Tools, Split into Columns			
+8	Using multiple sheets with different days allows the possibility of charting growth over time. unfortunately I didnt think of this sooner.			
+9	Annoyingly the date doesnt come with the export, which makes it hard sometimes to workout how the newcomer is.			
+10	Sort by name and then you can compare against the previous date.			
+11	Reorder the newly identified participant(s) to the bottom			
+12	Open the script editor			
+13	Uncomment the   var subject = "Welcome to SpaceApps Challenge 2016 Adelaide"; and comment out the other subject lines			
+14	Uncomment the   var files = line with the specific letter (e.g. "2016 Participant Onboarding 1") and comment out the other files lines			
+15	Select the EmailTest page			
+16	Set the startRow and numRows to 2 and the number of tests in the EmailTest sheet			
+17	Set test email addresses appropriately			
+18	Run the script as a test			
+19	Check the logs that the correct name, email and subject are set			
+20	Uncomment the var enabled = true; line in the script and rerun			
+21	Confirm correct delivery of emails			
+22	Select the latest sheet			
+23	Set the startRow and numRows to the entries with the new participants			
+24	Comment var = enabled			
+25	Switch back to the script page, run the script and verify the logs			
+26	Uncomment the var enabled = true; line in the script and rerun			
+27	Hope it worked... ideally a couple of team members are registered			
+28	Comment the var enabled = true; line			
+	Note, the script code is also at 		https://github.com/SpaceAppsAdl/Utils/blob/master/EmailMerge.gs	
