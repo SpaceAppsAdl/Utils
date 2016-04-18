@@ -15,15 +15,29 @@ function sendEmails() {
   // var subject = "SpaceApps Challenge 2016 Adelaide - A uniquely South Australian challenge";
 
   // Edit these to match the copy/paste from the SpaceAppChallenge manage location page
+  // Defaults for EmailTest sheet
   var startRow = 2;  // First row of data to process
-  var numRows = 24;   // Number of rows to process
+  var numRows = 1;   // Number of rows to process
+
+  // Uncomment for real data
+  // startRow = 9;  // First row of data to process
+  // numRows = 1;   // Number of rows to process
   
   var sheet = SpreadsheetApp.getActiveSheet();
   var me = Session.getActiveUser().getEmail();
   var aliases = GmailApp.getAliases();
-  Logger.log(aliases);
+  // Logger.log(aliases);
  
-  var files = DriveApp.getFilesByName("Onboard EMail Message Body 1");
+  // Change this as needed, depending on the email address for this year
+  // In 2016, this was an alias for Andrew McDonnell gmail account being used to send the emails.
+  // When used as an alias, is gets nicely set as the from and to,
+  // but it relies on there bing an SMPT service available for it
+  // https://support.google.com/a/answer/1710338?ctx=gmail&hl=en-GB&authuser=0&rd=1
+  var fromEmail = "adlspaceapp2016@phaze.space";
+  
+  // This file must be in the same folder as the spreadsheet
+  // Uncomment the needed one as required
+  var files = DriveApp.getFilesByName("2016 Participant Onboarding Email 1");
   var body = "";
   var file_id = "";
   while (files.hasNext()) {
@@ -36,6 +50,7 @@ function sendEmails() {
   }
 
   Logger.log("Sheet=" + sheet.getName() + " file_id=" + file_id);
+  if (enabled) { Logger.log("Sending Emails!"); } else { Logger.log("Not Sending Emails."); }
   
   // Fetch the range of cells A2:B3
   var dataRange = sheet.getRange(startRow, 1, numRows, 2) // r, c, NR, NC
@@ -52,11 +67,12 @@ function sendEmails() {
       
       // noReply:true shows wrong from domain ...      
       // htmlBody:message doesnt work because getBody() has no getAsHtml() method
-      Logger.log("email=" + emailAddress + " name=" + emailName + " msg=" + message);
+      //Logger.log("email=" + emailAddress + " name=" + emailName + " msg=" + message);
+      Logger.log("email=" + emailAddress + " name=" + emailName + " subject=" + subject);
       if (enabled) {
         GmailApp.sendEmail(emailAddress, subject, message,
                         {name:"Space Apps Adelaide 2016 Team", 
-                         from:"adlspaceapp2016@phaze.space"});
+                         from:fromEmail});
       }
     }
   }
